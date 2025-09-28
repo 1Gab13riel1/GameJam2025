@@ -90,9 +90,6 @@ public class GrabItem : MonoBehaviour
     // A function that makes the player drop the object.
     public void DropObject()
     {
-
-        Debug.Log("Attempting");
-
         if (grabobject == null) return;
         //This statement makes the object not attched to grab point
         grabobject.transform.SetParent(null);
