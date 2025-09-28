@@ -21,17 +21,22 @@ public class GrabItem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // if the key pressed is F and the item has been grabbed, then
-        if (Input.GetKeyDown(KeyCode.F) && grabobject == null)
+        // if the key pressed is F, then
+        if (Input.GetKeyDown(KeyCode.F))
         {
-            // call the function TryGrab() so the player can Grab it.
-            TryGrab();
+            // the item has not been grabbed, then
+            if (grabobject == null)
+            {
+                // call the function TryGrab() so the player can Grab it.
+                TryGrab();
+            }
+            else
+            {
+                // call the function DropObject() so the player can drop it
+                DropObject();
+            }
         }
-        else
-        {
-            // call the function DropObject() so the player can drop it
-            DropObject();
-        }
+        
 
         // if the object has not been grabbed, then make so that the
         // player will be able to grab it.
@@ -94,3 +99,4 @@ public class GrabItem : MonoBehaviour
     }
 
 }
+
