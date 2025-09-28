@@ -99,11 +99,11 @@ public class GrabItem : MonoBehaviour
         hit.collider.enabled = true;
         //This statement makes the object not attched to grab point
         grabobject.transform.SetParent(null);
+        // This makes the object fall out of the player's hand
+        grabobject = null;
         // This makes the object the player is holding
         // affected by gravity.
         objRB.bodyType = RigidbodyType2D.Dynamic;
-        // This makes the object fall out of the player's hand
-        grabobject = null;
     }
 
 }
