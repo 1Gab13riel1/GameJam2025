@@ -91,19 +91,23 @@ public class GrabItem : MonoBehaviour
     public void DropObject()
     {
 
-        // this statement performs a raycast on objects that have a LayerMask
-        // that falls under grabbableLayer
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, grabR, grabbableLayer);
-        // this statemnet gets the rigidbody of the object being held
-        Rigidbody2D objRB = grabobject.GetComponent<Rigidbody2D>();
-        hit.collider.enabled = true;
+        Debug.Log("Attempting");
+
+        if (grabobject == null) return;
         //This statement makes the object not attched to grab point
         grabobject.transform.SetParent(null);
-        // This makes the object fall out of the player's hand
-        grabobject = null;
+
+        grabobject.GetComponent<Collider2D>().enabled = true;
+
+        // this statemnet gets the rigidbody of the object being held
+        Rigidbody2D objRB = grabobject.GetComponent<Rigidbody2D>();
+
         // This makes the object the player is holding
         // affected by gravity.
         objRB.bodyType = RigidbodyType2D.Dynamic;
+
+        // This makes the object fall out of the player's hand
+        grabobject = null;
     }
 
 }
