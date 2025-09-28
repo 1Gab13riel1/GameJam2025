@@ -9,57 +9,87 @@ public class PlayerMovement : MonoBehaviour
 
     // A variable deals with horizontal movement
     private float horizontal;
+    private float vertical;
 
     // A variable deals with move speed and is set to 5.0f
     private float moveSpeed = 5.0f;
 
-    // A Variable deals with jump force and is set to 15.0f
-    private float jumpForce = 8.0f;
+    private Animator animator;
+    private SpriteRenderer sr;
 
+    bool onLadder = false;
 
-    /* The variables are set to private so that
-    they can only be used on this scrpit but are 
-    also set to SerializeField so that objects and other stuff
-    can obtained and be used for this script. */
+    private Rigidbody2D rb;
 
-    // A variable that deals with the Rigidbody of an object
-    [SerializeField] private Rigidbody2D rb;
-
-    // A variable that deals with the transform of an object
-    [SerializeField] private Transform groundCheck;
-
-    // A variable that deals with layer of object or objects
-    [SerializeField] private LayerMask groundLayer;
-
+    void Start()
+    {
+        animator = GetComponent<Animator>();
+        sr = GetComponent<SpriteRenderer>();
+        rb = GetComponent<Rigidbody2D>();
+    }
     void Update()
     {
         // Handles horizontal movement
         horizontal = Input.GetAxis("Horizontal");
+        vertical = Input.GetAxis("Vertical");
 
-        // Handles Jumping
-        if (Input.GetButtonDown("Jump") && IsGrounded())
+        Vector2 velocity = new Vector2(horizontal * moveSpeed, rb.linearVelocity.y);
+
+        if (onLadder)
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            // Allow full vertical movement on ladder
+            velocity.y = vertical * moveSpeed;
+            rb.gravityScale = 0; // disable gravity while on ladder
+        }
+        else
+        {
+            rb.gravityScale = 1; // restore gravity off ladder
         }
 
-        if (Input.GetButtonUp("Jump") && rb.linearVelocity.y > 0f)
-        {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * 0.5f);
-        }
-
-
+        rb.linearVelocity = velocity;
     }
 
     private void FixedUpdate()
     {
         // the movement of the player is updated
         rb.linearVelocity = new Vector2(horizontal * moveSpeed, rb.linearVelocity.y);
+
+        //animation controls
+        if (horizontal != 0)
+        {
+            animator.speed = 1;
+
+            //flip sprite based on direction
+            if (horizontal > 0)
+            {
+                sr.flipX = false;
+            }
+            else if (horizontal < 0)
+            {
+                sr.flipX = true;
+            }
+        }
+        else
+        {
+            animator.speed = 0;
+        }
     }
 
-    // A function that checks if the player is grounded
-    private bool IsGrounded()
+    private void OnCollisionEnter2D(Collision2D col)
     {
-        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+        Rigidbody2D body = col.rigidbody;
+        if (body != null && body.CompareTag("Ladder"))
+        {
+            onLadder = true;
+        }
     }
 
+    private void OnCollisionExit2D(Collision2D col)
+    {
+        Rigidbody2D body = col.rigidbody;
+        if (body != null && body.CompareTag("Ladder"))
+        {
+            onLadder = false;
+        }
+    }
 }
