@@ -13,22 +13,19 @@ public class OnGround : MonoBehaviour
     // A variable that deals with layer of object or objects
     [SerializeField] private LayerMask groundLayer;
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
+        // The function IsGrounded() is called so that
+        // check for the object being grounded can be
+        // done every time
         IsGrounded();
     }
 
-    // A function that checks if the player is grounded
+    // A function that checks if the object is grounded
     private bool IsGrounded()
     {
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
 }
+
