@@ -22,11 +22,12 @@ public class GrabItem : MonoBehaviour
     void Update()
     {
         // if the key pressed is F, then
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Keyboard.current.fKey.wasPressedThisFrame)
         {
             // the item has not been grabbed, then
             if (grabobject == null)
-            {
+            { 
+
                 // call the function TryGrab() so the player can Grab it.
                 TryGrab();
             }
@@ -36,7 +37,6 @@ public class GrabItem : MonoBehaviour
                 DropObject();
             }
         }
-        
 
         // if the object has not been grabbed, then make so that the
         // player will be able to grab it.
@@ -51,12 +51,12 @@ public class GrabItem : MonoBehaviour
     }
 
     // A function that makes the player grab the object.
-    private void TryGrab()
+    public void TryGrab()
     {
         // this statement performs a raycast on objects that have a LayerMask
         // that falls under grabbableLayer
         RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, grabR, grabbableLayer);
-
+        hit.collider.enabled = false;
         // this statement checks if the raycast has made contact with an object that has a LayerMask
         // that falls under grabbableLayer
         if (hit.collider != null)
@@ -64,11 +64,13 @@ public class GrabItem : MonoBehaviour
             // This statement gets the rigidbody of the object that been
             // hit by the raycast.
             Rigidbody2D objRB = hit.collider.GetComponent<Rigidbody2D>();
-            
+
             // statement checks if the object hit by raycast has rigidbody,
             // and if does, then the player will be able to hold the object
             if (objRB != null)
             {
+                hit.collider.enabled = false;
+
                 // This statement makes the object disables the rigidbody of the
                 // object and connects the object to the player
                 grabobject = hit.collider.gameObject;
@@ -84,9 +86,16 @@ public class GrabItem : MonoBehaviour
         }
     }
 
+    
+
     // A function that makes the player drop the object.
-    private void DropObject()
+    public void DropObject()
     {
+
+        // this statement performs a raycast on objects that have a LayerMask
+        // that falls under grabbableLayer
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, grabR, grabbableLayer);
+        hit.collider.enabled = false;
         // this statemnet gets the rigidbody of the object being held
         Rigidbody2D objRB = grabobject.GetComponent<Rigidbody2D>();
         // This makes the object the player is holding
