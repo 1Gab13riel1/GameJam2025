@@ -69,14 +69,13 @@ public class GrabItem : MonoBehaviour
             // and if does, then the player will be able to hold the object
             if (objRB != null)
             {
-                hit.collider.enabled = false;
-
                 // This statement makes the object disables the rigidbody of the
                 // object and connects the object to the player
                 grabobject = hit.collider.gameObject;
                 // This makes the object the player is holding
                 // not affected by gravity.
                 objRB.bodyType = RigidbodyType2D.Kinematic;
+                hit.collider.enabled = false;
                 // This statement makes the object attched to grab point
                 grabobject.transform.position = grabPoint.position;
                 // This statement makes the object attched to grab point
@@ -95,14 +94,14 @@ public class GrabItem : MonoBehaviour
         // this statement performs a raycast on objects that have a LayerMask
         // that falls under grabbableLayer
         RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, grabR, grabbableLayer);
-        hit.collider.enabled = false;
         // this statemnet gets the rigidbody of the object being held
         Rigidbody2D objRB = grabobject.GetComponent<Rigidbody2D>();
+        hit.collider.enabled = true;
+        //This statement makes the object not attched to grab point
+        grabobject.transform.SetParent(null);
         // This makes the object the player is holding
         // affected by gravity.
         objRB.bodyType = RigidbodyType2D.Dynamic;
-        //T his statement makes the object not attched to grab point
-        grabobject.transform.SetParent(null);
         // This makes the object fall out of the player's hand
         grabobject = null;
     }
