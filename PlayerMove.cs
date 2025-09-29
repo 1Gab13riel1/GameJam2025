@@ -78,10 +78,12 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.gravityScale = 0f;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, vertical * moveSpeed);
+            player.GetComponent<Collider2D>().enabled = true;
         }
         else
         {
             rb.gravityScale = 4f;
+            player.GetComponent<Collider2D>().enabled = false;
         }
     }
 
