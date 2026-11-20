@@ -3,7 +3,7 @@
 A 2D platformer/puzzle game made for **Texas Game Jam 2025**.
 Help the mouse escape the clock tower by assembling the clock pieces in the right place.
 
-**Play it:** [link to the game page]
+**Play it:** [\[link to the game page\]](https://starsilver03.itch.io/clocking-mouse)
 **Controls:** WASD to move
 **Platform:** Windows
 
