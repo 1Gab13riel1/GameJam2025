@@ -8,7 +8,6 @@ Help the mouse escape the clock tower by assembling the clock pieces in the righ
 **Platform:** Windows
 
 ![Gameplay screenshot](docs/screenshots/Clocking_Mice_gameplay.png)
-
 ![Title screen](docs/screenshots/Clocking_Mice_title.png)
 
 ## About this repo
